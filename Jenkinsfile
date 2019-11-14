@@ -17,7 +17,7 @@ node('docker'){
 
     stage('Integration Testing'){
         def dockerContainer = docker.build("ibmcom/db2:latest", "database").run("--privileged=true -p 50001:50000")
-        mvn '-Dflyway.url=jdbc:db2://localhost:50001/DB2Jenkins flyway:migrate'
+        mvn '-Dflyway.url=jdbc:db2://localhost:50001/Jenkins flyway:migrate'
     }
 
 }

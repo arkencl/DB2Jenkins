@@ -10,6 +10,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.ibm.db2.jcc</groupId>
+            <artifactId>db2jcc</artifactId>
+            <version>db2jcc4</version>
+        </dependency>
+
+        <dependency>
             <!-- Shared Library used in Jenkins. Including this in maven provides code completion in Jenkinsfile. -->
             <groupId>com.github.cloudogu</groupId>
             <artifactId>ces-build-lib</artifactId>

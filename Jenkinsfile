@@ -5,6 +5,7 @@ node('docker'){
 
     Maven mvn = new MavenInDocker(this, "3.6.2-jdk-8")
     Git git = new Git(this)
+    Docker docker = new Docker(this)
 
     stage('Checkout'){
         git 'https://github.com/arkencl/DB2Jenkins'
@@ -16,16 +17,10 @@ node('docker'){
     }
 
     stage('Integration Testing'){
-        def dockerContainer = docker.build("ibmcom/db2:latest", "database").run("--privileged=true -p 50001:50000")
-
-         waitUntil {
-             sleep(time: 10, unit: 'SECONDS')
-             return docker.isRunning(dockerContainer)
-         }
-         echo docker.findIp(dockerContainer)
-         echo docker.findEnv(dockerContainer)
-
-        mvn '-Dflyway.url=jdbc:db2://localhost:50001/Jenkins flyway:migrate'
+        def dockerContainer = docker.build("ibmcom/db2:latest", "database").run("--privileged=true -p 50005:50000")
+        def host = docker.findIp(dockerContainer)
+        echo "${host}"
+        mvn "-Dflyway.url=jdbc:db2://${host}:50005/Jenkins flyway:migrate"
     }
 
 }
